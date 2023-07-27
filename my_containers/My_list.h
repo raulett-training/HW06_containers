@@ -17,6 +17,24 @@ public:
         last_el_ptr = nullptr;
     }
 
+    My_list(const My_list &rhs){
+        My_list<T>();
+        auto it = rhs.begin();
+        for(it = rhs.begin(); it.has_next(); it.next()){
+            push_back(it.get());
+        }
+        push_back(it.get());
+    }
+
+    My_list(My_list &rhs){
+        My_list<T>();
+        auto it = rhs.begin();
+        for(it = rhs.begin(); it.has_next(); it.next()){
+            push_back(it.get());
+        }
+        push_back(it.get());
+    }
+
     explicit My_list(T element) {
         first_el_ptr = new list_el{element};
         last_el_ptr = first_el_ptr;
@@ -31,15 +49,7 @@ public:
         push_back(tail...);
     }
 
-    My_list(const My_list& rhs){
-        list_el* current_rhs_element = rhs.first_el_ptr;
-        first_el_ptr = new list_el{rhs.first_el_ptr->el_data};
-        size = 1;
-        do{
-            current_rhs_element = current_rhs_element->next_el;
-            push_back(current_rhs_element->el_data);
-        } while (current_rhs_element->next_el != nullptr);
-    }
+
 
     My_list(My_list&& rhs) noexcept {
         size = rhs.size;
@@ -47,6 +57,7 @@ public:
         rhs.first_el_ptr = nullptr;
         last_el_ptr = rhs.last_el_ptr;
         rhs.last_el_ptr = nullptr;
+        rhs.size = 0;
     }
 
     My_list& operator=(My_list rhs){
@@ -79,7 +90,8 @@ public:
         explicit list_el(T new_el){
             el_data = new_el;
         }
-        T el_data = 0;
+        ~list_el()= default;
+        T el_data;
         list_el* next_el = nullptr;
     };
 
@@ -93,7 +105,6 @@ public:
             if (current_element != NULL) {
                 current_element = current_element->next_el;
             }
-
         }
 
         T get(){
@@ -125,10 +136,9 @@ public:
         }
     }
 
-    iterator end(){
+    list_el* end(){
         if (size>0){
-            iterator it{last_el_ptr};
-            return it;
+            return nullptr;
         } else{
             throw std::out_of_range("there is no elements in container");
         }
@@ -178,13 +188,17 @@ public:
         }
         list_el* temp = first_el_ptr;
         list_el* next_temp_ptr = first_el_ptr->next_el;
-        for (size_t i = 1; i < index; i++){
-            next_temp_ptr = next_temp_ptr->next_el;
-            temp = temp->next_el;
-
+        if (index == 0){
+            first_el_ptr = next_temp_ptr;
+            delete temp;
+        } else {
+            for (size_t i = 1; i < index; i++) {
+                next_temp_ptr = next_temp_ptr->next_el;
+                temp = temp->next_el;
+            }
+            temp->next_el = next_temp_ptr->next_el;
+            delete[] next_temp_ptr;
         }
-        temp->next_el = next_temp_ptr->next_el;
-        delete[] next_temp_ptr;
         size--;
         return true;
     }
@@ -202,7 +216,7 @@ public:
             list_el* temp = first_el_ptr;
             list_el* next_temp_ptr = first_el_ptr->next_el;
             while (temp != nullptr) {
-                delete[] temp;
+                delete temp;
                 temp = next_temp_ptr;
                 if (temp != nullptr){
                     next_temp_ptr = temp->next_el;

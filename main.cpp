@@ -23,6 +23,8 @@
         ожидаемый результат: 10, 0, 1, 3, 20, 5, 7, 8, 9, 30
 */
 
+
+
 void demonstrate_my_vector(){
     My_vector my_vector = My_vector<int>();
     for(int i = 0; i < 10; i++){

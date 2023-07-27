@@ -16,8 +16,8 @@ FetchContent_MakeAvailable(googletest)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 add_executable(HW06_containers main.cpp my_containers/My_vector.h my_containers/My_list.h)
-add_executable(HW06_containers_vector_test test/test_vector.cpp my_containers/My_vector.h)
-add_executable(HW06_containers_list_test test/test_list.cpp my_containers/My_vector.h)
+add_executable(HW06_containers_vector_test test/vector_test.cpp my_containers/My_vector.h)
+add_executable(HW06_containers_list_test test/list_test.cpp my_containers/My_vector.h test/DestructorTracer.cpp test/DestructorTracer.h)
 
 target_include_directories(
         HW06_containers
@@ -32,7 +32,7 @@ target_include_directories(
 target_include_directories(
         HW06_containers_list_test
         PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/my_containers")
+        "${CMAKE_CURRENT_SOURCE_DIR}/my_containers" "${CMAKE_CURRENT_SOURCE_DIR}/test")
 
 target_link_libraries(HW06_containers_vector_test PRIVATE gtest gtest_main)
 target_link_libraries(HW06_containers_list_test PRIVATE gtest gtest_main)
