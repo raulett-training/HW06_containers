@@ -16,30 +16,25 @@ FetchContent_MakeAvailable(googletest)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 add_executable(HW06_containers main.cpp my_containers/My_vector.h my_containers/My_list.h)
-add_executable(HW06_containers_vector_test test/vector_test.cpp my_containers/My_vector.h)
-add_executable(HW06_containers_list_test test/list_test.cpp my_containers/My_vector.h test/DestructorTracer.cpp test/DestructorTracer.h)
+add_executable(containers_test test/containers_test.cpp
+        my_containers/My_vector.h my_containers/My_vector.h
+        test/DestructorTracer.cpp test/DestructorTracer.h)
 
 target_include_directories(
         HW06_containers
         PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/my_containers")
 
-target_include_directories(
-        HW06_containers_vector_test
-        PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/my_containers")
 
 target_include_directories(
-        HW06_containers_list_test
+        containers_test
         PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/my_containers" "${CMAKE_CURRENT_SOURCE_DIR}/test")
 
-target_link_libraries(HW06_containers_vector_test PRIVATE gtest gtest_main)
-target_link_libraries(HW06_containers_list_test PRIVATE gtest gtest_main)
+target_link_libraries(containers_test PRIVATE gtest gtest_main)
 
 set_target_properties(HW06_containers PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-set_target_properties(HW06_containers_vector_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-set_target_properties(HW06_containers_list_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+set_target_properties(containers_test PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
 
 
 if (MSVC)
@@ -48,12 +43,8 @@ if (MSVC)
             /W4
     )
     target_compile_options(
-            HW06_containers_vector_test PRIVATE
-            /W4
-    )
-    target_compile_options(
-            HW06_containers_list_test PRIVATE
-            /W4
+            containers_test PRIVATE
+            -Wall -Wextra -pedantic -Werror
     )
 else ()
     target_compile_options(
@@ -61,11 +52,7 @@ else ()
             -Wall -Wextra -pedantic -Werror
     )
     target_compile_options(
-            HW06_containers_vector_test PRIVATE
-            -Wall -Wextra -pedantic -Werror
-    )
-    target_compile_options(
-            HW06_containers_list_test PRIVATE
+            containers_test PRIVATE
             -Wall -Wextra -pedantic -Werror
     )
 endif()

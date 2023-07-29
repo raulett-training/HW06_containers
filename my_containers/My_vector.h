@@ -13,8 +13,8 @@ class My_vector {
 public:
 
     My_vector(){
-        arr_ptr = new T[10];
-        reserved_size = 10;
+        this->arr_ptr = new T[10];
+        this->reserved_size = 10;
     }
     explicit My_vector(T element) {
         arr_ptr = new T[10];
@@ -32,12 +32,11 @@ public:
         push_back(tail...);
     }
 
-    My_vector(const My_vector& rhs){
-        arr_ptr = new T[rhs.reserved_size];
-        size = rhs.size;
-        reserved_size = rhs.reserved_size;
-        for (int i=0; i < size; i++){
-            arr_ptr[i] = rhs.arr_ptr[i];
+    My_vector(const My_vector& rhs):My_vector(rhs){}
+
+    My_vector(My_vector& rhs):My_vector(){
+        for(size_t i = 0; i<rhs.arr_size(); i++){
+            push_back(rhs[i]);
         }
     }
 
@@ -46,6 +45,8 @@ public:
         rhs.arr_ptr = nullptr;
         size = rhs.size;
         reserved_size = rhs.reserved_size;
+        rhs.size = 0;
+        rhs.reserved_size = 0;
     }
 
     My_vector& operator=(My_vector rhs){
@@ -125,7 +126,6 @@ public:
         push_back(el);
         push_back(tail...);
     }
-//    TODO Тестировать тщательно
     void insert(T element, size_t index){
         if (index > size){
             return;

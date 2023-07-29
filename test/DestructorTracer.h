@@ -12,6 +12,8 @@ struct DestructorTracer {
     static size_t destructor_count;
     static size_t constructor_count;
     DestructorTracer();
+//    DestructorTracer(const DestructorTracer&) = default;
+//    DestructorTracer(DestructorTracer&&) = default;
     ~DestructorTracer();
 };
 

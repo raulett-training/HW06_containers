@@ -71,7 +71,27 @@ void demonstrate_my_vector(){
         std::cout << my_vector[i] << ",";
     }
     std::cout << std::endl;
+
+    std::cout << "copy vector " << std::endl;
+
+    My_vector my_vector_2 = My_vector<int>();
+    std::cout << "new vector create:" << std::endl;
+    for(int i = 0; i < 10; i++){
+        my_vector_2.push_back(i);
+    }
+    for(int i = 0; i < 10; i++){
+        std::cout << my_vector_2[i] << ",";
+    }
+    std::cout << std::endl;
+    My_vector copy_vector{my_vector_2};
+    std::cout << "copied vector" << std::endl;
+    for(int i = 0; i < 10; i++){
+        std::cout << copy_vector[i] << ",";
+    }
+    std::cout << std::endl;
+
 }
+
 
 void demonstrate_my_list(){
     My_list my_list = My_list<int>();

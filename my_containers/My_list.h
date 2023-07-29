@@ -17,8 +17,9 @@ public:
         last_el_ptr = nullptr;
     }
 
-    My_list(const My_list &rhs){
-        My_list<T>();
+    //Как можно сделать делегирование между константным и неконстантным копирующим конструктором?
+    // чтобы не дублировать код
+    My_list(const My_list &rhs):My_list(){
         auto it = rhs.begin();
         for(it = rhs.begin(); it.has_next(); it.next()){
             push_back(it.get());
@@ -26,8 +27,7 @@ public:
         push_back(it.get());
     }
 
-    My_list(My_list &rhs){
-        My_list<T>();
+    My_list(My_list &rhs):My_list(){
         auto it = rhs.begin();
         for(it = rhs.begin(); it.has_next(); it.next()){
             push_back(it.get());
