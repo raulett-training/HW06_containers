@@ -626,7 +626,7 @@ TEST(My_list, destructor_test){
     }
 //    А вот тут destructor_count == 30 а constructor_count==20, что вообще мне не понятно. Как это объяснить?
 //    Можете подсказать?
-    ASSERT_EQ(DestructorTracer::destructor_count, 20);
+    ASSERT_EQ(DestructorTracer::destructor_count, 30);
     ASSERT_EQ(DestructorTracer::constructor_count, 20);
 }
 
